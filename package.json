@@ -3,7 +3,8 @@
   "private": true,
   "version": "1.0.2",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "libs/*"
   ],
   "scripts": {
     "start": "concurrently npm:start:*",
@@ -11,7 +12,11 @@
     "start:client": "npm run -w client start",
     "dev": "npm start",
     "test": "npm run -w client test",
-    "api-no-watch": "npm run -w api dev:no-watch"
+    "api-no-watch": "npm run -w api dev:no-watch",
+    "preinstall": "npm run build-all",  
+    "postinstall": "npm run build-all", 
+    "build-all": "npm run build --workspaces", 
+    "build": "tsc -b"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
