@@ -16,6 +16,7 @@
       "src/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/tests/**/*.ts"],
+  "typeRoots": ["./node_modules/@types", "./src/utils/type-definitions"],
+  "include": ["src/**/*.ts", "src/tests/**/*.ts", "src/utils/type-definitions"],
   "exclude": ["node_modules"]
 }
