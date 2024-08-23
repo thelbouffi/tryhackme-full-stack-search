@@ -2,12 +2,20 @@
   "compilerOptions": {
     "target": "ES2017",
     "module": "ES2022",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
     "outDir": "./dist",
-  }
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "types": ["node", "jest"],
+    "baseUrl": "./", 
+    "paths": {    
+      "src/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/tests/**/*.ts"],
+  "exclude": ["node_modules"]
 }
