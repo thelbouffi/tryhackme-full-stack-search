@@ -3,6 +3,7 @@ import {
   getHotels,
   getHotelById,
   searchAccommodations,
+  searchAccommodationsByEs,
 } from "../controllers/hotelController";
 import { schemaValidator } from "src/middlewares/schemaValidator";
 import { searchSchema } from "../validation/searchSchema";
@@ -41,7 +42,8 @@ router.get(
     const { q } = req.query;
 
     try {
-      const accommodations = await searchAccommodations(q as string);
+      // const accommodations = await searchAccommodations(q as string);
+      const accommodations = await searchAccommodationsByEs(q as string);
 
       res.status(200).json({
         status: "ok",
