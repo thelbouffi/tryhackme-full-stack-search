@@ -21,6 +21,10 @@ function CityDetails() {
     );
   }
 
+  if (!data && !error) {
+    return <NotFound itemName="City" />;
+  }
+
   if (error) {
     return (
       <ErrorDisplay
@@ -29,24 +33,19 @@ function CityDetails() {
     );
   }
 
-  if (!data) {
-    return <NotFound itemName="City" />;
-  }
-
-  
   return (
     <div data-testid="city-details" className="card-container">
       <div className="card">
         <div className="card-header">
-          <h2>{data.name}</h2>
+          <h2>{data?.name}</h2>
         </div>
         <div className="card-body">
           <p>
-            <strong>City Name:</strong> {data.name}
+            <strong>City Name:</strong> {data?.name}
           </p>
         </div>
         <div className="card-footer d-flex justify-content-end">
-          <button onClick={() => navigate('/')} className="btn btn-primary">
+          <button onClick={() => navigate("/")} className="btn btn-primary">
             Back to Search
           </button>
         </div>

@@ -21,6 +21,10 @@ function CountryDetails() {
     );
   }
 
+  if (!data && !error) {
+    return <NotFound itemName="Country" />;
+  }
+
   if (error) {
     return (
       <ErrorDisplay
@@ -29,19 +33,16 @@ function CountryDetails() {
     );
   }
 
-  if (!data) {
-    return <NotFound itemName="Country" />;
-  }
 
   return (
     <div data-testid="country-details" className="card-container">
       <div className="card">
         <div className="card-header">
-          <h2>{data.country}</h2>
+          <h2>{data?.country}</h2>
         </div>
         <div className="card-body">
           <p>
-            <strong>Country ISO Code:</strong> {data.countryisocode}
+            <strong>Country ISO Code:</strong> {data?.countryisocode}
           </p>
         </div>
         <div className="card-footer d-flex justify-content-end">

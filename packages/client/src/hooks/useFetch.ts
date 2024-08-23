@@ -21,6 +21,9 @@ function useFetch<T>(url: string): UseQueryResult<T | null, Error> {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<ApiResponse<T>>;
+        if (axiosError.response?.status === 404) {
+          return null; // reconfirm returning null for 404
+        }
         const message = axiosError.response?.data.message || axiosError.message;
         throw new Error(message);
       } else {
@@ -33,6 +36,7 @@ function useFetch<T>(url: string): UseQueryResult<T | null, Error> {
     queryKey: ["fetchData", url],
     queryFn: fetchData,
     enabled: !!url,
+    retry: false,
   });
 }
 
