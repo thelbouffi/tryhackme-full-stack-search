@@ -25,6 +25,13 @@ try {
   await db.collection("cities").insertMany(cities);
   await db.collection("countries").insertMany(countries);
   await db.collection("hotels").insertMany(hotels);
+
+  // create indexes for performent queries
+   await db.collection("hotels").createIndex({ hotel_name: "text", city: "text", state: "text", country: "text" });
+   await db.collection("countries").createIndex({ country: "text" });
+   await db.collection("cities").createIndex({ name: "text" });
+   console.log('Indexes created successfully');
+   
 } catch (error) {
   console.error("Error seeding database:", error);
 } finally {
