@@ -2,12 +2,17 @@ import request from "supertest";
 import app from "src/app";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { MongoClient, ObjectId } from "mongodb";
+import { Client as ElasticsearchClient } from "@elastic/elasticsearch";
 import { getDb } from "src/config/database";
+import { getEsClient } from "src/config/elasticsearch";
 
 jest.mock("src/config/database");
+jest.mock("src/config/elasticsearch");
 
 let mongoServer: MongoMemoryServer;
 let client: MongoClient;
+let esClient: ElasticsearchClient;
+
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create({
@@ -34,11 +39,43 @@ beforeAll(async () => {
     countryisocode: "TS",
     star_rating: 5,
   });
+
+  // Set up Elasticsearch client
+  esClient = new ElasticsearchClient({ node: "http://localhost:9200" }); // local instance of elasticsearch should be running
+  (getEsClient as jest.Mock).mockReturnValue(esClient);
+
+  // Insert data into Elasticsearch
+  await esClient.index({
+    index: "hotels",
+    id: "60af75b30b5f4c69d1e56a43", // Use the same _id as MongoDB
+    body: {
+      chain_name: "Chain Test",
+      hotel_name: "Hotel Test",
+      addressline1: "Address Test",
+      addressline2: "",
+      zipcode: "111111",
+      city: "City Test",
+      state: "State Test",
+      country: "Country Test",
+      countryisocode: "TS",
+      star_rating: 5,
+    },
+    refresh: true, // Ensure the document is immediately available for search
+  });
 });
 
 afterAll(async () => {
   await client.close();
   await mongoServer.stop();
+
+  try {
+    await esClient.delete({
+      index: "hotels",
+      id: "60af75b30b5f4c69d1e56a43", 
+    });
+  } catch (error) {
+    console.error("Error deleting document in Elasticsearch:", error);
+  }
 });
 
 describe("Hotel Routes", () => {
