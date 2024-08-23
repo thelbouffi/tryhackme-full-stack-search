@@ -4,14 +4,16 @@ import { useNavigate } from 'react-router-dom';
 interface ErrorDisplayProps {
   message: string;
   details?: string;
+  onClose?: () => void;
 }
 
-function ErrorDisplay({ message, details }: ErrorDisplayProps) {
+function ErrorDisplay({ message, details, onClose }: ErrorDisplayProps) {
   const [isVisible, setIsVisible] = useState(true);
   const navigate = useNavigate();
 
   const handleClose = () => {
     setIsVisible(false);
+    if (onClose) onClose();
     navigate('/'); 
   };
 

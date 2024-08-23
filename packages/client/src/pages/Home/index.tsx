@@ -53,6 +53,7 @@ function SearchAccommodation() {
                   message={
                     error instanceof Error ? error.message : String(error)
                   }
+                  onClose={clearFetchedData}
                 />
               )}
               {showResults && data && !isLoading && (
