@@ -1,87 +1,39 @@
-import { useState, useEffect } from "react";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { ApiResponse } from "@accommodations/shared-types";
 
-interface FetchResult<T> {
-  data: T | null;
-  isLoading: boolean;
-  error: Error | string | null;
-}
+function useFetch<T>(url: string): UseQueryResult<T | null, Error> {
+  const fetchData = async (): Promise<T | null> => {
+    try {
+      const response: AxiosResponse<ApiResponse<T>> = await axios.get(url);
 
-function useFetch<T>(url: string): FetchResult<T> {
-  const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | string | null>(null);
-
-  useEffect(() => {
-    if (!url) {
-      setData(null);
-      setIsLoading(false);
-      return;
-    }
-
-    let isMounted = true;
-
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(url);
-
-        // Handle 404 Not Found case
-        if (response.status === 404) {
-          // const result: ApiResponse<T> = await response.json();
-          if (isMounted) {
-            setData(null);
-            // setError(result.message || 'Resource not found');
-            setError(null);
-          }
-          return;
-        }
-
-        // Handle other non-OK statuses
-        if (!response.ok) {
-          console.log({ response });
-          const errorBody: ApiResponse<T> = await response.json();
-          if (errorBody.message) {
-            throw new Error(errorBody.message);
-          } else {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-        }
-
-        // Handle ok status
-        const result: ApiResponse<T> = await response.json();
-
-        if (isMounted) {
-          if (result.status === "ok") {
-            setData(result.body || null);
-            setError(null);
-          } else if (result.status === "error") {
-            setData(null);
-            setError(result.message || "An error occurred");
-          }
-        }
-      } catch (e) {
-        if (isMounted) {
-          setError(
-            e instanceof Error ? e.message : "An unknown error occurred"
-          );
-          setData(null);
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+      if (response.status === 404) {
+        return null;
       }
-    };
 
-    fetchData();
+      const result = response.data;
 
-    return () => {
-      isMounted = false;
-    };
-  }, [url]);
+      if (result.status === "ok") {
+        return result.body || null;
+      } else {
+        throw new Error(result.message || "An error occurred");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<ApiResponse<T>>;
+        const message = axiosError.response?.data.message || axiosError.message;
+        throw new Error(message);
+      } else {
+        throw new Error("An unknown error occurred");
+      }
+    }
+  };
 
-  return { data, isLoading, error };
+  return useQuery<T | null, Error>({
+    queryKey: ["fetchData", url],
+    queryFn: fetchData,
+    enabled: !!url,
+  });
 }
 
 export default useFetch;
