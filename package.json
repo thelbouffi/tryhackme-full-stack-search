@@ -1,7 +1,7 @@
 {
   "name": "full-stack-search",
   "private": true,
-  "version": "1.0.2",
+  "version": "2.0.0",
   "workspaces": [
     "packages/*",
     "libs/*"
@@ -11,11 +11,14 @@
     "start:api": "npm run -w api dev",
     "start:client": "npm run -w client start",
     "dev": "npm start",
-    "test": "npm run -w client test",
+    "test:client": "npm run -w client test",
+    "test:api": "npm run -w api test",
+    "test:e2e": "npm run -w client test:e2e",
+    "test:e2e:ui": "npm run -w client test:e2e:ui",
     "api-no-watch": "npm run -w api dev:no-watch",
-    "preinstall": "npm run build-all",  
-    "postinstall": "npm run build-all", 
-    "build-all": "npm run build --workspaces", 
+    "preinstall": "npm run build-all",
+    "postinstall": "npm run build-all",
+    "build-all": "npm run build --workspaces",
     "build": "tsc -b"
   },
   "devDependencies": {
