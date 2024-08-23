@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { getDb } from "src/config/database";
-import {HttpError} from "src/utils/errors";
+import { HttpError } from "src/utils/errors";
 
 export const getCityById = async (id: string | undefined) => {
   if (!id || !ObjectId.isValid(id)) {
