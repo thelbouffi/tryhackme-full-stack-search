@@ -19,7 +19,9 @@
     "preinstall": "npm run build-all",
     "postinstall": "npm run build-all",
     "build-all": "npm run build --workspaces",
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "es:clear": "npm run -w api es:del:index:data",
+    "es:setup": "npm run -w api es:index:data  "
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

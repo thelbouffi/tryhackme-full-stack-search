@@ -11,12 +11,15 @@
     "dev:api": "npm run dev",
     "dev:no-watch": "tsx src/index.ts",
     "build": "tsc",
-    "build:api": "npm run build"
+    "build:api": "npm run build",
+    "es:index:data": "tsx src/utils/scripts/indexDataInEs.ts",
+    "es:del:index:data": "tsx src/utils/scripts/deleteEsIndexedData.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "^8.15.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
