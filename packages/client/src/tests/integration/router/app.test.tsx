@@ -15,7 +15,6 @@ import {
 import { useFetch } from "src/hooks";
 import { vi, expect } from "vitest";
 
-// Mocking the fetchAccommodationsApi and useFetch hook
 vi.mock("src/utils/apis");
 vi.mock("src/hooks");
 

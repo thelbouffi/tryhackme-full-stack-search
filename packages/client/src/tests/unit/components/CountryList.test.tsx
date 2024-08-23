@@ -40,6 +40,6 @@ describe("CountryList Component", () => {
     const countryOne = screen.getByText("Country One");
     fireEvent.click(countryOne);
 
-    expect(onRedirectMock).toHaveBeenCalledWith("countries", "1"); // Arguments adjusted
+    expect(onRedirectMock).toHaveBeenCalledWith("countries", "1"); 
   });
 });

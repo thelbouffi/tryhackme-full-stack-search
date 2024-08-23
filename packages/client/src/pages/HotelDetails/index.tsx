@@ -55,7 +55,7 @@ function HotelDetails() {
           </p>
         </div>
         <div className="card-footer d-flex justify-content-end">
-          <button onClick={() => navigate('/')} className="btn btn-primary">
+          <button id="back-btn" onClick={() => navigate('/')} className="btn btn-primary">
             Back to Search
           </button>
         </div>

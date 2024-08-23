@@ -3,9 +3,7 @@ import AccommodationList from "src/components/AccommodationList";
 import { Accomodation, City, Country, Hotel } from "@accommodations/shared-types";
 import { vi, expect } from "vitest";
 
-// Mock child components
 vi.mock("src/components/HotelList", () => ({
-  //__esModule: true,
   default: ({ hotels }: { hotels: Hotel[] }) => (
     <div data-testid="hotel-list">
       {hotels.map(hotel => (
@@ -16,7 +14,6 @@ vi.mock("src/components/HotelList", () => ({
 }));
 
 vi.mock("src/components/CountryList", () => ({
-  //__esModule: true,
   default: ({ countries }: { countries: Country[] }) => (
     <div data-testid="country-list">
       {countries.map(country => (
@@ -27,7 +24,6 @@ vi.mock("src/components/CountryList", () => ({
 }));
 
 vi.mock("src/components/CityList", () => ({
-  //__esModule: true,
   default: ({ cities }: { cities: City[] }) => (
     <div data-testid="city-list">
       {cities.map(city => (

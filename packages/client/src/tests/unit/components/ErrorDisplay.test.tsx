@@ -11,19 +11,15 @@ describe("ErrorDisplay Component", () => {
       </MemoryRouter>
     );
 
-    // Check that the error message is displayed
     const errorMessage = screen.getByText("Test Error");
     expect(errorMessage).toBeInTheDocument();
 
-    // Check that the error details are displayed inside the <pre> tag
     const errorDetailsPre = screen.getByText("Error Details", { selector: "pre" });
     expect(errorDetailsPre).toBeInTheDocument();
 
-    // Check that the summary element contains the text "Error Details"
     const summaryElement = screen.getByText("Error Details", { selector: "summary" });
     expect(summaryElement).toBeInTheDocument();
 
-    // Click the close button and verify the modal disappears
     const closeButton = screen.getByRole("button", { name: /×/i });
     fireEvent.click(closeButton);
 

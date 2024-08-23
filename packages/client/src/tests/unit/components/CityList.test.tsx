@@ -38,6 +38,6 @@ describe("CityList Component", () => {
     const cityOne = screen.getByText("City One");
     fireEvent.click(cityOne);
 
-    expect(onRedirectMock).toHaveBeenCalledWith("cities", "1"); // Arguments adjusted
+    expect(onRedirectMock).toHaveBeenCalledWith("cities", "1");
   });
 });

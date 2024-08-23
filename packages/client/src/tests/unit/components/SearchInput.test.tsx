@@ -10,7 +10,7 @@ describe("SearchInput Component", () => {
   });
 
   it("calls `onInputChange` when input value changes", () => {
-    const onInputChangeMock = vi.fn(); // Use vi.fn() here
+    const onInputChangeMock = vi.fn(); 
     render(<SearchInput inputValue="" showClearBtn={false} onInputChange={onInputChangeMock} onClear={() => {}} />);
     
     const inputElement = screen.getByPlaceholderText("Search accommodation...");
@@ -26,7 +26,7 @@ describe("SearchInput Component", () => {
   });
 
   it("calls `onClear` when clear button is clicked", () => {
-    const onClearMock = vi.fn(); // Use vi.fn() here
+    const onClearMock = vi.fn(); 
     render(<SearchInput inputValue="test" showClearBtn={true} onInputChange={() => {}} onClear={onClearMock} />);
     
     const clearButton = screen.getByRole("button");
