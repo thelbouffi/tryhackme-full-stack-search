@@ -1,4 +1,4 @@
-import { getHotelById, getHotels, searchAccommodations } from "src/modules/hotels/controllers/hotelController";
+import { getHotelById, getHotels, searchAccommodationsByIndex } from "src/modules/hotels/controllers/hotelController";
 import { getDb } from "src/config/database";
 import { HttpError } from "src/utils/errors";
 import { ObjectId } from "mongodb";
@@ -36,12 +36,12 @@ describe("getHotels", () => {
 
 describe("searchAccommodations", () => {
   it("should throw an error if the query parameter is missing", async () => {
-    await expect(searchAccommodations("")).rejects.toThrow(HttpError);
+    await expect(searchAccommodationsByIndex("")).rejects.toThrow(HttpError);
   });
 
   it("should throw an error if the database connection is not established", async () => {
     (getDb as jest.Mock).mockReturnValue(null);
-    await expect(searchAccommodations("test")).rejects.toThrow("Database connection is not established");
+    await expect(searchAccommodationsByIndex("test")).rejects.toThrow("Database connection is not established");
   });
 
   it("should return matching accommodations", async () => {
@@ -52,7 +52,7 @@ describe("searchAccommodations", () => {
     };
     (getDb as jest.Mock).mockReturnValue(mockDb);
 
-    const results = await searchAccommodations("test");
+    const results = await searchAccommodationsByIndex("test");
 
     expect(results).toEqual({
       hotels: [{ name: "Test Hotel" }],
