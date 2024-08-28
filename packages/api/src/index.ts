@@ -1,10 +1,14 @@
 import app from "./app";
 import { PORT } from "./config";
-import { connectToDatabase, closeDatabaseConnection } from "./config/database";
+import { closeDatabaseConnection } from "./config/database";
+
+if (process.env.NODE_ENV !== "production" && !process.env.DATABASE_URL) {
+  await import("./db/startAndSeedMemoryDB");
+}
+
+if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
 
 const startServer = async () => {
-  await connectToDatabase(process.env.DATABASE_URL as string); // Ensure connection on startup
-
   const server = app.listen(PORT, () => {
     console.log(`API Server started on port ${PORT}`);
   });

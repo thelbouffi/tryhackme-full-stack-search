@@ -12,7 +12,9 @@ export const dbConnectionMiddleware = async (
     if (!db) {
       db = await connectToDatabase(process.env.DATABASE_URL as string);
     }
-    
+
+    // req.db = db;
+
     next();
   } catch (error) {
     console.error("Failed to connect to the database:", error);
