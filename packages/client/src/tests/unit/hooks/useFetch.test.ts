@@ -1,8 +1,8 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { vi } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 import useFetch from "src/hooks/useFetch";
 
-// Mocking the fetch function
+// Mocking the fetch function with Vitest
 global.fetch = vi.fn();
 
 describe("useFetch Hook", () => {
@@ -12,7 +12,8 @@ describe("useFetch Hook", () => {
 
   it("should return data after a successful fetch", async () => {
     const mockData = { status: "ok", body: { name: "Test City" }, message: "" };
-    (global.fetch as jest.Mock).mockResolvedValueOnce({
+
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       json: async () => mockData,
     });
@@ -31,7 +32,7 @@ describe("useFetch Hook", () => {
   });
 
   it("should handle a 404 error", async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce({
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: false,
       status: 404,
       json: async () => ({ status: "error", message: "Not Found" }),
@@ -51,7 +52,7 @@ describe("useFetch Hook", () => {
   });
 
   it("should handle a network error", async () => {
-    (global.fetch as jest.Mock).mockRejectedValueOnce(
+    (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
       new Error("Network Error")
     );
 

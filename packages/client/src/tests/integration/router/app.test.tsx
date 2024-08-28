@@ -13,7 +13,7 @@ import {
   fetchHotelByIdApi,
 } from "src/utils/apis";
 import { useFetch } from "src/hooks";
-import { vi, expect } from "vitest";
+import { vi, expect, beforeAll, describe, it } from "vitest";
 
 vi.mock("src/utils/apis");
 vi.mock("src/hooks");
@@ -21,7 +21,7 @@ vi.mock("src/hooks");
 describe("App Routing", () => {
   describe("App Routing - Route to Home Page", () => {
     beforeAll(() => {
-      (useFetch as jest.Mock).mockReturnValue({
+      (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
         data: null,
         isLoading: false,
         error: null,
@@ -58,10 +58,10 @@ describe("App Routing", () => {
     };
 
     beforeAll(() => {
-      (fetchHotelByIdApi as jest.Mock).mockReturnValue(
+      (fetchHotelByIdApi as ReturnType<typeof vi.fn>).mockReturnValue(
         Promise.resolve(mockHotelData)
       );
-      (useFetch as jest.Mock).mockReturnValue({
+      (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
         data: mockHotelData,
         isLoading: false,
         error: null,
@@ -88,10 +88,10 @@ describe("App Routing", () => {
     };
 
     beforeAll(() => {
-      (fetchCountryByIdApi as jest.Mock).mockReturnValue(
+      (fetchCountryByIdApi as ReturnType<typeof vi.fn>).mockReturnValue(
         Promise.resolve(mockCountryData)
       );
-      (useFetch as jest.Mock).mockReturnValue({
+      (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
         data: mockCountryData,
         isLoading: false,
         error: null,
@@ -117,10 +117,10 @@ describe("App Routing", () => {
     };
 
     beforeAll(() => {
-      (fetchCityByIdApi as jest.Mock).mockReturnValue(
+      (fetchCityByIdApi as ReturnType<typeof vi.fn>).mockReturnValue(
         Promise.resolve(mockCityData)
       );
-      (useFetch as jest.Mock).mockReturnValue({
+      (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
         data: mockCityData,
         isLoading: false,
         error: null,

@@ -3,8 +3,9 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { CityDetails } from "src/pages";
 import { fetchCityByIdApi } from "src/utils/apis";
 import { useFetch } from "src/hooks";
-import { vi, expect } from "vitest";
+import { vi, expect, beforeEach, describe, it } from "vitest";
 
+// Mocking modules with Vitest
 vi.mock("src/utils/apis");
 vi.mock("src/hooks");
 
@@ -12,10 +13,10 @@ describe("CityDetails Page", () => {
   const mockCityData = { _id: "1", name: "Test City" };
 
   beforeEach(() => {
-    (fetchCityByIdApi as jest.Mock).mockReturnValue(
+    (fetchCityByIdApi as ReturnType<typeof vi.fn>).mockReturnValue(
       Promise.resolve(mockCityData)
     );
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: mockCityData,
       isLoading: false,
       error: null,
@@ -36,13 +37,10 @@ describe("CityDetails Page", () => {
 
     const headerElement = screen.getByRole("heading", { name: "Test City" });
     expect(headerElement).toBeInTheDocument();
-
-    // const paragraphElement = screen.getByText("Test City").closest("p");
-    // expect(paragraphElement).toHaveTextContent("City Name: Test City");
   });
 
   it("displays loading spinner while fetching city details", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: true,
       error: null,
@@ -61,7 +59,7 @@ describe("CityDetails Page", () => {
   });
 
   it("displays error message when fetching city details fails", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: false,
       error: "Fetch error",
@@ -80,7 +78,7 @@ describe("CityDetails Page", () => {
   });
 
   it("displays NotFound component when no city data is returned", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: false,
       error: null,

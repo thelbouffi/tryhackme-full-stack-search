@@ -39,7 +39,6 @@ function useFetch<T>(url: string): FetchResult<T> {
 
         // Handle other non-OK statuses
         if (!response.ok) {
-          console.log({ response });
           const errorBody: ApiResponse<T> = await response.json();
           if (errorBody.message) {
             throw new Error(errorBody.message);

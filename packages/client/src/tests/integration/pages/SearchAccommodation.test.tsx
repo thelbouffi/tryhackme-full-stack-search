@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import SearchAccommodation from "src/pages/Home";
 import { fetchAccommodationsApi } from "src/utils/apis";
 import { useFetch } from "src/hooks";
-import { vi, expect } from "vitest";
+import { vi, expect, beforeEach, describe, it } from "vitest";
 
 vi.mock("src/utils/apis");
 vi.mock("src/hooks");
@@ -16,8 +16,8 @@ describe("SearchAccommodation Page", () => {
   };
 
   beforeEach(() => {
-    (fetchAccommodationsApi as jest.Mock).mockReturnValue(Promise.resolve(mockData));
-    (useFetch as jest.Mock).mockReturnValue({ data: mockData, isLoading: false, error: null });
+    (fetchAccommodationsApi as ReturnType<typeof vi.fn>).mockReturnValue(Promise.resolve(mockData));
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({ data: mockData, isLoading: false, error: null });
   });
 
   it("renders search input and results", () => {
@@ -37,7 +37,7 @@ describe("SearchAccommodation Page", () => {
   });
 
   it("displays loading spinner while fetching data", () => {
-    (useFetch as jest.Mock).mockReturnValue({ data: null, isLoading: true, error: null });
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({ data: null, isLoading: true, error: null });
     
     render(
       <MemoryRouter>
@@ -50,7 +50,7 @@ describe("SearchAccommodation Page", () => {
   });
 
   it("displays error message when fetch fails", () => {
-    (useFetch as jest.Mock).mockReturnValue({ data: null, isLoading: false, error: "Fetch error" });
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({ data: null, isLoading: false, error: "Fetch error" });
 
     render(
       <MemoryRouter>

@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { CountryDetails } from "src/pages"; 
 import { fetchCountryByIdApi } from "src/utils/apis"; 
 import { useFetch } from "src/hooks";
-import { vi, expect } from "vitest";
+import { vi, expect, describe, it, beforeEach } from "vitest";
 
 vi.mock("src/utils/apis");
 vi.mock("src/hooks");
@@ -16,10 +16,10 @@ describe("CountryDetails Page", () => {
   }; 
 
   beforeEach(() => {
-    (fetchCountryByIdApi as jest.Mock).mockReturnValue(
+    (fetchCountryByIdApi as ReturnType<typeof vi.fn>).mockReturnValue(
       Promise.resolve(mockCountryData)
     );
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: mockCountryData,
       isLoading: false,
       error: null,
@@ -40,7 +40,7 @@ describe("CountryDetails Page", () => {
   });
 
   it("displays loading spinner while fetching country details", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: true,
       error: null,
@@ -59,7 +59,7 @@ describe("CountryDetails Page", () => {
   });
 
   it("displays error message when fetching country details fails", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: false,
       error: "Fetch error",
@@ -78,7 +78,7 @@ describe("CountryDetails Page", () => {
   });
 
   it("displays NotFound component when no country data is returned", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: false,
       error: null,

@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { HotelDetails } from "src/pages"; 
 import { fetchHotelByIdApi } from "src/utils/apis";
 import { useFetch } from "src/hooks";
-import { vi, expect } from "vitest";
+import { vi, expect, beforeEach, describe, it } from "vitest";
 
 vi.mock("src/utils/apis");
 vi.mock("src/hooks");
@@ -24,10 +24,10 @@ describe("HotelDetails Page", () => {
   };
 
   beforeEach(() => {
-    (fetchHotelByIdApi as jest.Mock).mockReturnValue(
+    (fetchHotelByIdApi as ReturnType<typeof vi.fn>).mockReturnValue(
       Promise.resolve(mockHotelData)
     );
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: mockHotelData,
       isLoading: false,
       error: null,
@@ -48,7 +48,7 @@ describe("HotelDetails Page", () => {
   });
 
   it("displays loading spinner while fetching hotel details", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: true,
       error: null,
@@ -67,7 +67,7 @@ describe("HotelDetails Page", () => {
   });
 
   it("displays error message when fetching hotel details fails", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: false,
       error: "Fetch error",
@@ -86,7 +86,7 @@ describe("HotelDetails Page", () => {
   });
 
   it("displays NotFound component when no hotel data is returned", () => {
-    (useFetch as jest.Mock).mockReturnValue({
+    (useFetch as ReturnType<typeof vi.fn>).mockReturnValue({
       data: null,
       isLoading: false,
       error: null,
